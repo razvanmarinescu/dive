@@ -233,10 +233,13 @@ def launchSynth(runIndex, nrProcesses, modelToRun):
   plotTrajParams['names'] = ['v']
   params['plotTrajParams'] = plotTrajParams
 
-  # [initClust, modelFit, AIC/BIC, blender, theta_sampling]
-  params['runPartStd'] = ['R', 'R', 'R', 'R', 'R']
-  # [mainPart, plot, stage]
-  params['runPartMain'] = ['R', 'R', 'R']
+  ################ set up the checkpoints ##########
+  # R - run that part
+  # L - load from saved file
+  # I - ignore part
+
+  params['runPartStd'] = ['R', 'R', 'R', 'I', 'I'] # [initClust, modelFit, AIC/BIC, blender, theta_sampling]
+  params['runPartMain'] = ['R', 'I', 'I'] # [mainPart, plot, stage]
 
   params['masterProcess'] = runIndex == 0
 
@@ -567,10 +570,10 @@ def compareWithTrueParams(dpmObj, resStruct):
   dpsLongTrue = VoxelDPM.calcDps(trueParams['subShiftsLong'], resStruct['ageFirstVisitLong1array'])
   dpsLong = VoxelDPM.calcDps(dpmObj.subShifts, resStruct['ageFirstVisitLong1array'])
   plotterObj = PlotterVDPM.PlotterVDPMSynth()
-  # fig = plotterObj.plotSubShiftsTrue(dpmObj.subShifts, trueParams['subShiftsLong'], dpsLong, dpsLongTrue,
-  #                         plotTrajParams, replaceFigMode=False, fontsize = 25)
-  # fig.savefig('%s/synShiftsRes_%s.png' % (dpmObj.outFolder,
-  #                                        dpmObj.params['plotTrajParams']['outFolder'].split('/')[-1]), dpi=100)
+  fig = plotterObj.plotSubShiftsTrue(dpmObj.subShifts, trueParams['subShiftsLong'], dpsLong, dpsLongTrue,
+                          plotTrajParams, replaceFigMode=True, fontsize = 25)
+  fig.savefig('%s/synShiftsRes_%s.png' % (dpmObj.outFolder,
+                                         dpmObj.params['plotTrajParams']['outFolder'].split('/')[-1]), dpi=100)
 
   # print(adsads)
 
@@ -622,21 +625,21 @@ def compareWithTrueParams(dpmObj, resStruct):
 
   # print('resStruct[crossData]',resStruct['crossData'].shape)
 
-  # trueThetasPerturbedClustPerm = [trueParams['thetasPerturbedClust'][i] for i in  inferredPermInv]
-  # fig = plotterObj.plotTrajWeightedDataMeanTrueParams(
-  #   resStruct['crossData'],
-  #   resStruct['crossDiag'],
-  #   dpsCrossTrue,
-  #   dpmObj.thetas,
-  #   trueParams['variances'][inferredPermInv],
-  #   clustProbTrueBCColNorm[:, inferredPermInv],
-  #   dpmObj.params['plotTrajParams'],
-  #   dpmObj.params['trajFunc'],
-  #   trueParams['thetas'][inferredPermInv, :],
-  #   showConfInt=False,
-  #   trueThetasPerturbedClust=trueThetasPerturbedClustPerm, replaceFigMode=False,
-  #   colorTitle=False, adjustBottomHeight=0.25, fontsize = 16)
-  # fig.savefig('%s/synThetaRes_%s.png' % (dpmObj.outFolder, dpmObj.outFolder.split('/')[-1]), dpi=100)
+  trueThetasPerturbedClustPerm = [trueParams['thetasPerturbedClust'][i] for i in  inferredPermInv]
+  fig = plotterObj.plotTrajWeightedDataMeanTrueParams(
+    resStruct['crossData'],
+    resStruct['crossDiag'],
+    dpsCrossTrue,
+    dpmObj.thetas,
+    trueParams['variances'][inferredPermInv],
+    clustProbTrueBCColNorm[:, inferredPermInv],
+    dpmObj.params['plotTrajParams'],
+    dpmObj.params['trajFunc'],
+    trueParams['thetas'][inferredPermInv, :],
+    showConfInt=False,
+    trueThetasPerturbedClust=trueThetasPerturbedClustPerm, replaceFigMode=True,
+    colorTitle=False, adjustBottomHeight=0.25, fontsize = 16)
+  fig.savefig('%s/synThetaRes_%s.png' % (dpmObj.outFolder, dpmObj.outFolder.split('/')[-1]), dpi=100)
 
   # the algo minimises the objFunc, so the likThTrue should be lower than likThEst
   # print('ssdThEst', ssdThEst)

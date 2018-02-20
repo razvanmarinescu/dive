@@ -743,7 +743,7 @@ class PlotterVDPM:
 
     figSizeInch = (plotTrajParams['SubfigClustMaxWinSize'][0] / 100,
     plotTrajParams['SubfigClustMaxWinSize'][1] / 100)
-    fig = pl.figure(1, figsize=figSizeInch)
+    fig = pl.figure(figsize=figSizeInch)
     pl.clf()
     nrRows = plotTrajParams['nrRows']
     nrCols = plotTrajParams['nrCols']
