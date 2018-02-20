@@ -9,10 +9,6 @@ import sys
 from matplotlib import pyplot as pl
 import gc
 
-sys.path.append(os.path.abspath("../voxelwiseDPM/"))
-sys.path.append(os.path.abspath("../jointModellingDisease/"))
-sys.path.append(os.path.abspath("../diffEqModel/"))
-
 
 # Differential equation models
 from DEM import *
@@ -33,50 +29,16 @@ import VDPMNanMasks
 import VDPMNanNonMean
 
 
-# joint disease models
-import JointModel
-import MarcoModelWrapper
-import Plotter
-import IncompleteModel
-
-from importlib.machinery import SourceFileLoader
+#from importlib.machinery import SourceFileLoader
 from sklearn import linear_model
-plotFuncDiffEq = SourceFileLoader("*",
-  os.path.abspath("../diffEqModel/plotFunc.py")).load_module()
+#plotFuncDiffEq = SourceFileLoader("*",
+#  os.path.abspath("../diffEqModel/plotFunc.py")).load_module()
+
+import plotFunc
 
 def runModels(params, expName, modelToRun, runAllExpFunc):
   modelNames = []
   res = []
-
-  if np.any(modelToRun == 0) or np.any(modelToRun == 1):
-    fittingFunc = fitGaussianProc
-    aligner = AlignerBaseVisit()  # aligns to baseline visit
-    dpmBuilder = DEMBuilder(fittingFunc, aligner)  # disease progression model builder
-    modelName = 'DEMStd'
-    expNameCurrModel = '%s_%s' % (expName, modelName)
-    params['currModel'] = 1
-    res += [runAllExpFunc(params, expNameCurrModel, dpmBuilder)]
-    modelNames += [modelName]
-
-  # if np.any(modelToRun == 0) or np.any(modelToRun == 2):
-  #   fittingFunc = fitGaussianProc
-  #   aligner = AlignerEM()  # aligns using Expectation-Maximisation
-  #   dpmBuilder = DEMBuilder(fittingFunc, aligner)  # disease progression model builder
-  #   modelName = 'DEM-EM'
-  #   expNameCurrModel = '%s_%s' % (expName, modelName)
-  #   params['currModel'] = 2
-  #   res += [runAllExpFunc(params, expNameCurrModel, dpmBuilder)]
-  #   modelNames += [modelName]
-
-  if np.any(modelToRun == 0) or np.any(modelToRun == 3):
-    fittingFunc = fitGaussianProc
-    aligner = AlignerLogLOpt()  # aligns using direct optimisation of incomplete logL (marginal over stages)
-    dpmBuilder = DEMBuilder(fittingFunc, aligner)  # disease progression model builder
-    modelName = 'DEMLogLOpt'
-    expNameCurrModel = '%s_%s' % (expName, modelName)
-    params['currModel'] = 3
-    res += [runAllExpFunc(params, expNameCurrModel, dpmBuilder)]
-    modelNames += [modelName]
 
   if np.any(modelToRun == 0) or np.any(modelToRun == 4):
     # Voxelwise dpm with sigmoid trajectories and dynamic ROIs
@@ -174,35 +136,6 @@ def runModels(params, expName, modelToRun, runAllExpFunc):
     res += [runAllExpFunc(params, expNameCurrModel, dpmBuilder)]
     modelNames += [modelName]
 
-  if np.any(modelToRun == 0) or np.any(modelToRun == 14):
-    # JMD - Joint Model of Diseases
-    dpmBuilder = JointModel.JMDBuilder(params['plotTrajParams'])
-    modelName = 'JMD'
-    expNameCurrModel = '%s_%s' % (expName, modelName)
-    params['currModel'] = 14
-    res += [runAllExpFunc(params, expNameCurrModel, dpmBuilder)]
-    modelNames += [modelName]
-
-  if np.any(modelToRun == 0) or np.any(modelToRun == 15):
-    # Marco's Model
-    dpmBuilder = MarcoModelWrapper.MarcoModelBuilder(params['plotTrajParams'])
-    modelName = 'MarcoModel'
-    expNameCurrModel = '%s_%s' % (expName, modelName)
-    params['currModel'] = 15
-    res += [runAllExpFunc(params, expNameCurrModel, dpmBuilder)]
-    modelNames += [modelName]
-
-  if np.any(modelToRun == 0) or np.any(modelToRun == 16):
-    # Incomplete JMD - Joint Model of Diseases
-    filePathUnitModels = params['filePathUnitModels']
-    gpModels = pickle.load(open(filePathUnitModels, 'rb'))
-    dpmBuilder = IncompleteModel.IncompleteBuilder(params['plotTrajParams'], gpModels)
-    modelName = 'IJDM'
-    expNameCurrModel = '%s_%s' % (expName, modelName)
-    params['currModel'] = 16
-    res += [runAllExpFunc(params, expNameCurrModel, dpmBuilder)]
-    modelNames += [modelName]
-
   return modelNames, res
 
 def runStdDPM(params, expNameCurrModel, dpmBuilder, runPart):
@@ -223,7 +156,7 @@ def runStdDPM(params, expNameCurrModel, dpmBuilder, runPart):
     (maxLikStages, maxStagesIndex, stagingProb, stagingLik, tsStages, _) = dpmObj.stageSubjects(dataIndices)
     print(params['diag'].shape, dataIndices.shape)
     print('maxLikStages min max', np.min(maxLikStages), np.max(maxLikStages))
-    fig, lgd = plotFuncDiffEq.plotStagingHist(maxLikStages, diag=params['diag'][dataIndices],
+    fig, lgd = plotFunc.plotStagingHist(maxLikStages, diag=params['diag'][dataIndices],
                     plotTrajParams=params['plotTrajParams'], expNameCurrModel=expNameCurrModel)
     stagingHistFigName = '%s/stagingHist.png' % dpmObj.outFolder
     fig.savefig(stagingHistFigName, bbox_extra_artists=(lgd,), bbox_inches='tight')
