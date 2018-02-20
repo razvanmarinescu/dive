@@ -225,6 +225,7 @@ def launchSynth(runIndex, nrProcesses, modelToRun):
   params['initClustering'] = 'k-means'
   params['rangeFactor'] = float(args.rangeFactor)
   params['pointIndices'] = np.array(range(nrBiomk), int)
+  params['fixSpeed'] = False  # if true then don't model progression speed, only time shift
 
   plotTrajParams['sortedByPvalInd'] = range(nrBiomk)
   plotTrajParams['pointIndices'] = params['pointIndices']
@@ -235,7 +236,7 @@ def launchSynth(runIndex, nrProcesses, modelToRun):
   # [initClust, modelFit, AIC/BIC, blender, theta_sampling]
   params['runPartStd'] = ['R', 'R']
   # [mainPart, plot, stage]
-  params['runPartMain'] = ['R', 'I', 'I']
+  params['runPartMain'] = ['R', 'R', 'R']
 
   params['masterProcess'] = runIndex == 0
 
