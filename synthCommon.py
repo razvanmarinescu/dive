@@ -72,7 +72,9 @@ def generateClustData(nrSubjLong, nrBiomk, nrClust, nrTimepts, trajFunc, thetasT
     partCodeCross = dataStruct['partCodeCross']
     ageAtScanCross = dataStruct['ageAtScanCross']
     trueParams = dataStruct['trueParams']
+
   else:
+
     np.random.seed(1)
     # generate subject data
     subShiftsLongTrue = np.array([np.random.multivariate_normal(
@@ -202,7 +204,7 @@ def generateClustData(nrSubjLong, nrBiomk, nrClust, nrTimepts, trajFunc, thetasT
     plotterObj = PlotterVDPM.PlotterVDPMSynth()
     plotterObj.plotTrajSubfigWithDataRandPoints(dataCross, diagCross, dpsCross, thetasTrue,
                                      variancesTrue, clustProbColNormBCtrue, localParams['plotTrajParams'], trajFunc,
-                                     replaceFigMode=True,
+                                     replaceFigMode=False,
                                      thetasSamplesClust =thetasPerturbedClust)
 
     dataStruct = dict(dataCross=dataCross, diagCross=diagCross, scanTimeptsCross=scanTimeptsCross,
@@ -252,7 +254,7 @@ def generateThetas(nrClustToGenCurr, trajMinLowerLim, trajMinInterval,
     thetasTrueCurr[c2, :] = [-trajMin, -slopeCurr * 4 / trajMin,
       dpsLowerLimit + dpsInterval * c2 / nrClustToGenCurr, trajMin]
 
-  # print('thetasTrueCurr', thetasTrueCurr)
+  print('thetasTrueCurr', thetasTrueCurr)
   # print(adas)
   # shuffle their centers and slopes, otherwise the early clusters will always have low slopes
   thetasTrueCurr = shuffleThetas(thetasTrueCurr)

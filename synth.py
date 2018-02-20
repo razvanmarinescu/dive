@@ -169,8 +169,8 @@ def launchSynth(runIndex, nrProcesses, modelToRun):
   #if os.path.isfile(inputFileData):
   trajFuncDict = {'lin': linearFunc, 'sig': sigmoidFunc}
 
-  # forceRegenerate = True
-  forceRegenerate = False
+  forceRegenerate = True
+  # forceRegenerate = False
 
   ############# define default parameters #####################################
 
@@ -234,7 +234,7 @@ def launchSynth(runIndex, nrProcesses, modelToRun):
   params['plotTrajParams'] = plotTrajParams
 
   # [initClust, modelFit, AIC/BIC, blender, theta_sampling]
-  params['runPartStd'] = ['R', 'R']
+  params['runPartStd'] = ['L', 'L', 'R', 'R', 'R']
   # [mainPart, plot, stage]
   params['runPartMain'] = ['R', 'R', 'R']
 
