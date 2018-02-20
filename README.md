@@ -23,6 +23,6 @@ The main class of the model is in voxelDPM.py. The launcher scripts used to star
 
 == References ==
 
-A vertex clustering model for disease progression: Application to cortical thickness images Razvan V. Marinescu, Arman Eshaghi, Marco Lorenzi, Alexandra L. Young, Neil P. Oxtoby, Sara Garbarino, Timothy J. Shakespeare, Sebastian J. Crutch and Daniel C. Alexander http://www.homepages.ucl.ac.uk/~rmaprvm/MarinescuIPMI2017.pdf
+[1] A vertex clustering model for disease progression: Application to cortical thickness images, Razvan V. Marinescu, Arman Eshaghi, Marco Lorenzi, Alexandra L. Young, Neil P. Oxtoby, Sara Garbarino, Timothy J. Shakespeare, Sebastian J. Crutch and Daniel C. Alexander http://www.homepages.ucl.ac.uk/~rmaprvm/MarinescuIPMI2017.pdf
 
 
