@@ -51,7 +51,7 @@ adniPetManyClust:
 	python3 launchThick.py --launcherScript adniPet.py --firstInstance 1 --lastInstance 1 --nrProc 1 --models 9 --nrOuterIt 25 --nrInnerIt 1 --nrClustList 18,19,20,21,22,23,24,25,26,27,28,29,30,32,34,36,38,40,42,44,46,48,50 --initClustering k-means --rangeFactor 1 --informPrior 0 --cluster --timeLimit 23
 
 copyToPublicRepo:
-	cp -r adniCommon.py adniPet.py adniThick.py aux.py blenderCol.py colorAtrophyExtent.py colorClustProb.py colorClustSlope.py colorDiffs.py colorVerticesDirectly.py  env.py evaluationFramework.py  launchCommon.py   launchSynth.py launchThick.py plotFunc.py PlotterVDPM.py  procADNICluster.py procADNIMerge.py procADNIPET.py   procPETMerge.py synthCommon.py synthMRF.py synth.py  tadpole.py   VDPMLinear.py VDPMMean.py VDPM_MRF.py VDPMNanMasks.py VDPMNanNonMean.py VDPMNan.py VDPMSimplified.py  voxCommon.py voxelDPM.py  Makefile ../../research_public/dive/
+	cp -r adniCommon.py adniPet.py adniThick.py aux.py blenderCol.py colorAtrophyExtent.py colorClustProb.py colorClustSlope.py colorDiffs.py colorVerticesDirectly.py  env.py  launchCommon.py   launchSynth.py launchThick.py plotFunc.py PlotterVDPM.py  procADNICluster.py procADNIMerge.py procADNIPET.py   procPETMerge.py synthCommon.py synthMRF.py synth.py  tadpole.py   VDPMLinear.py VDPMMean.py VDPM_MRF.py VDPMNanMasks.py VDPMNanNonMean.py VDPMNan.py VDPMSimplified.py  voxCommon.py voxelDPM.py  Makefile ../../research_public/dive/
 
 copySlopeCol:
 	find . -name "*slopeCol*" | xargs -I {} find {} -name "*.png" | awk '{ split($1,a,"/"); system("cp "$1" "a[2]"/slopeCol.png") }'
