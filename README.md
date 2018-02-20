@@ -1,4 +1,5 @@
 == Getting started ==
+
 === Synthetic tests ===
 
 Run the DIVE model on several synthetic tests using the following command:
