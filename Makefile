@@ -82,11 +82,27 @@ petMaster:
 
 
 fourMainExp:
-	adniMain
-	drcAdMain
-	drcPcaMain
-	petMain
+	make adniMain;
+	make drcAdMain;
+	make drcPcaMain;
+	make petMain;
 
+# fit model for different centers for each trajectory
+synthDifferentTrajCenters:
+	python3 launchSynth.py --launcherScript synth.py --firstInstance 1 --lastInstance 1 --nrProc 1 --models 8 --expToRun 1 --steps 0 --nrOuterIt 10 --nrInnerIt 1 --nrClustList 3 --initClustering k-means --rangeFactor 0 --informPrior 1
+
+# fit model for different numbers of clusters
+synthDifferentNrClust:
+	python3 launchSynth.py --launcherScript synth.py --firstInstance 1 --lastInstance 1 --nrProc 1 --models 8 --expToRun 2 --steps 0 --nrOuterIt 10 --nrInnerIt 1 --nrClustList 3 --initClustering k-means --rangeFactor 0 --informPrior 1
+
+# fit model for different numbers of subjects
+synthDifferentNrSubj:
+	python3 launchSynth.py --launcherScript synth.py --firstInstance 1 --lastInstance 1 --nrProc 1 --models 8 --expToRun 3 --steps 0 --nrOuterIt 10 --nrInnerIt 1 --nrClustList 3 --initClustering k-means --rangeFactor 0 --informPrior 1
+
+synthAll:
+	make synthDifferentTrajCenters;
+	make synthDifferentNrClust;
+	make synthDifferentNrSubj;
 
 ####### 10-fold Cross-Validation experiments on cluster ########
 
