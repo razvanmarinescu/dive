@@ -8,10 +8,10 @@ make synthAll
 
 This will run three main synthetic scenarios:
 1. cluster trajectories getting closer to one another 
-2. increasing number of cluster
-3. decreasing number of subjects 
+2. increasing number of clusters
+3. decreasing number of subjects
 
-As the scenarios get harder and harder (e.g. very few subjects generated), DIVE will perform worse.
+Each scenarioruns 8 successive steps that get harder and harder (e.g. many subjects generated -> very few subjects generated). The performance of DIVE is expected to decrease as the scenarios increase in difficulty.
 
  === Real data ===
 
